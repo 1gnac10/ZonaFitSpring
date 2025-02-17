@@ -82,6 +82,71 @@ public class ZonaFitApplication implements CommandLineRunner {
 					logger.info("Cliente no encontrado!");
 				}
 			}
+
+			case 3 -> {
+				logger.info(nl + "**** Agregar Cliente ****" + nl);
+				logger.info("Nombre: ");
+				var nombre = consola.nextLine();
+				logger.info("Apellido: ");
+				var apellido = consola.nextLine();
+				logger.info("Membresía: ");
+				var membresia = Integer.parseInt(consola.nextLine());
+
+				var cliente = new Cliente();
+				cliente.setNombre(nombre);
+				cliente.setApellido(apellido);
+				cliente.setMembresia(membresia);
+
+				clienteServicio.guardarCliente(cliente);
+				logger.info("Cliente Agregado: " + cliente  + nl);
+			}
+
+			case 4 -> {
+				logger.info(nl + "**** Modificar Cliente ****" + nl);
+				logger.info("Id Cliente: ");
+				var idCliente = Integer.parseInt(consola.nextLine());
+				Cliente cliente = clienteServicio.buscarClientePorId(idCliente);
+				if (cliente != null){
+					logger.info("Nuevo Nombre: ");
+					var nombre = consola.nextLine();
+					logger.info("Nuevo Apellido: ");
+					var apellido = consola.nextLine();
+					logger.info("Nueva Membresía: ");
+					var membresia = Integer.parseInt(consola.nextLine());
+
+					cliente.setNombre(nombre);
+					cliente.setApellido(apellido);
+					cliente.setMembresia(membresia);
+					clienteServicio.guardarCliente(cliente);
+
+					logger.info("Cliente Modificado: " + cliente + nl);
+
+				} else{
+					logger.info("Cliente no encontrado: " + cliente + nl);
+				}
+			}
+
+			case 5 -> {
+				logger.info(nl + "*** Eliminar Cliente ***" + nl);
+				logger.info("Id Cliente: ");
+				var idCliente = Integer.parseInt(consola.nextLine());
+				var cliente = clienteServicio.buscarClientePorId(idCliente);
+				if (cliente != null){
+					clienteServicio.eliminarCliente(cliente);
+					logger.info("Cliente Elimiado!! " + cliente + nl);
+				}
+				else{
+					logger.info("Cliente no encontrado: " + cliente + nl);
+				}
+			}
+
+			case 6 ->{
+				logger.info("Hasta pronto!! " + nl + nl);
+
+				salir = true;
+			}
+
+			default -> logger.info("Opción no reconocida " + opcion + nl);
 		}
 
 		return salir;
